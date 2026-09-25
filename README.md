@@ -6,15 +6,18 @@ Un solo comando: pide tus credenciales de Taiga, levanta el servidor en Docker y
 en Claude Code.
 
 ```bash
-npx github:BenjaminPolzoni/taiga-mcp
+npx -y --allow-git=root github:BenjaminPolzoni/taiga-mcp
 ```
+
+`--allow-git=root` hace falta en npm 12 o superior, que bloquea los paquetes de git por
+defecto. En versiones anteriores el flag se ignora, así que el comando es el mismo para todos.
 
 Necesitás **Docker Desktop abierto** y **Node 18+**. Python no hace falta: corre todo en el
 contenedor. Si la sesión de Claude Code ya estaba abierta, reconectá con `/mcp`.
 
 | | |
 |---|---|
-| Cambiar de cuenta | `npx github:BenjaminPolzoni/taiga-mcp --reconfigure` |
+| Cambiar de cuenta | `npx -y --allow-git=root github:BenjaminPolzoni/taiga-mcp --reconfigure` |
 | Apagar / prender | `docker stop taiga-mcp` · `docker start taiga-mcp` |
 | ¿Está vivo? | `curl http://localhost:8010/healthz` → `ok` |
 

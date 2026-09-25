@@ -8,7 +8,7 @@ description: Instalar y configurar el Taiga MCP del Grupo 10 en una máquina nue
 Un solo comando deja el servidor corriendo y registrado:
 
 ```bash
-npx github:BenjaminPolzoni/taiga-mcp
+npx -y --allow-git=root github:BenjaminPolzoni/taiga-mcp
 ```
 
 Pide las credenciales de Taiga la primera vez, levanta el servidor en Docker y lo
@@ -40,7 +40,7 @@ credenciales por chat, la respuesta es que corra el comando con su cuenta.
 Para cambiar de cuenta:
 
 ```bash
-npx github:BenjaminPolzoni/taiga-mcp --reconfigure
+npx -y --allow-git=root github:BenjaminPolzoni/taiga-mcp --reconfigure
 ```
 
 El perfil queda en `ide` con `TAIGA_DESTRUCTIVE_MODE=off`, o sea **sin tools de borrado**. Es a
@@ -65,6 +65,11 @@ desde el código nuevo y reemplaza el contenedor. Las credenciales no se vuelven
 ## Cuando algo falla
 
 Diagnosticá en este orden; el 90% de las veces es lo primero.
+
+**0. ¿npm rechaza el comando?** `npm error code EALLOWGIT · Fetching packages of type "git"
+have been disabled`. npm 12 bloquea los paquetes de git por defecto; por eso el comando lleva
+`--allow-git=root`. Si lo copiaste sin el flag, agregalo. En npm anterior a 12 el flag se
+ignora sin romper nada.
 
 **1. ¿Docker está abierto?** El error es `Docker está instalado pero el daemon no responde`.
 Abrí Docker Desktop, esperá el «Engine running» y repetí el comando. Este es el caso más

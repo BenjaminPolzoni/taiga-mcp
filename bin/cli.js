@@ -2,7 +2,7 @@
 /**
  * Lanzador del Taiga MCP.
  *
- *   npx github:BenjaminPolzoni/taiga-mcp
+ *   npx -y --allow-git=root github:BenjaminPolzoni/taiga-mcp
  *
  * Pide las credenciales de Taiga la primera vez, levanta el servidor en Docker
  * y lo deja registrado en Claude Code. Sin Python: todo corre en el contenedor.
@@ -287,7 +287,7 @@ function cierre(registrado) {
   }
   log(`\n  ${c.tenue("Apagarlo:")}      docker stop taiga-mcp`);
   log(`  ${c.tenue("Volver a abrir:")} docker start taiga-mcp`);
-  log(`  ${c.tenue("Cambiar cuenta:")} npx github:BenjaminPolzoni/taiga-mcp --reconfigure`);
+  log(`  ${c.tenue("Cambiar cuenta:")} npx -y --allow-git=root github:BenjaminPolzoni/taiga-mcp --reconfigure`);
   log();
 }
 
