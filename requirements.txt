@@ -1,4 +1,4 @@
-mcp>=1.0
+mcp<2  # app.py usa FastMCP (API v1); mcp 2.x lo renombro a MCPServer
 starlette>=0.37
 uvicorn>=0.30
 httpx>=0.27

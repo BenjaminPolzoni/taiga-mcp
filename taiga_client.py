@@ -142,9 +142,15 @@ class TaigaClient:
         *,
         params: QueryParamTypes | None = None,
         json: Mapping[str, Any] | None = None,
+        all_pages: bool = False,
     ) -> Any:
         path = path.lstrip("/")
-        response = await self._client.request(method, path, params=params, json=json)
+        # Taiga paginates list endpoints at 30 items by default; this header asks
+        # for the full collection in one response.
+        headers = {"x-disable-pagination": "True"} if all_pages else None
+        response = await self._client.request(
+            method, path, params=params, json=json, headers=headers
+        )
         try:
             response.raise_for_status()
         except httpx.HTTPStatusError as exc:  # pragma: no cover - error details for humans
@@ -192,7 +198,7 @@ class TaigaClient:
 
     async def list_epics(self, project_id: int) -> list[dict[str, Any]]:
         params = {"project": project_id}
-        data = await self._request("GET", "/epics", params=params)
+        data = await self._request("GET", "/epics", params=params, all_pages=True)
         return list(data)
 
     async def list_user_stories(
@@ -218,7 +224,9 @@ class TaigaClient:
         if page_size is not None:
             params.append(("page_size", page_size))
 
-        data = await self._request("GET", "/userstories", params=params)
+        data = await self._request(
+            "GET", "/userstories", params=params, all_pages=page is None and page_size is None
+        )
         return list(data)
 
     async def list_user_story_statuses(self, project_id: int) -> list[dict[str, Any]]:
@@ -356,7 +364,7 @@ class TaigaClient:
         if project_id is not None:
             params.append(("project", project_id))
 
-        data = await self._request("GET", "/users", params=params or None)
+        data = await self._request("GET", "/users", params=params or None, all_pages=True)
         return list(data)
 
     async def list_project_users(self, project_id: int) -> list[dict[str, Any]]:
