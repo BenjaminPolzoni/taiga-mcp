@@ -1,0 +1,16 @@
+services:
+  taiga-mcp:
+    build: .
+    container_name: taiga-mcp
+    env_file: .env
+    # el contenedor escucha en 8000; 8010 es el puerto que espera la config MCP del cliente
+    ports:
+      - "8010:8000"
+    restart: unless-stopped
+    healthcheck:
+      # la imagen slim no trae curl: se usa el propio python
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

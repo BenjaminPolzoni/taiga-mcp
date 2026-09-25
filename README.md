@@ -1,5 +1,31 @@
 # Taiga MCP Server
 
+## Arranque rápido (equipo Grupo 10)
+
+Un solo comando: pide tus credenciales de Taiga, levanta el servidor en Docker y lo registra
+en Claude Code.
+
+```bash
+npx github:BenjaminPolzoni/taiga-mcp
+```
+
+Necesitás **Docker Desktop abierto** y **Node 18+**. Python no hace falta: corre todo en el
+contenedor. Si la sesión de Claude Code ya estaba abierta, reconectá con `/mcp`.
+
+| | |
+|---|---|
+| Cambiar de cuenta | `npx github:BenjaminPolzoni/taiga-mcp --reconfigure` |
+| Apagar / prender | `docker stop taiga-mcp` · `docker start taiga-mcp` |
+| ¿Está vivo? | `curl http://localhost:8010/healthz` → `ok` |
+
+Tus credenciales quedan en `~/.taiga-mcp/.env`, fuera del repo. **Cada uno usa su propia cuenta
+de Taiga**: no las compartas por chat, quien las tenga escribe en el backlog con tu nombre.
+
+En `skills/` hay dos skills para copiar a `.claude/skills/` de tu proyecto: `instalarTaigaMCP`
+(esta instalación) y `mcpTaiga` (cómo trabajar con épicas, historias y tareas, con las trampas
+de la API y las plantillas de la wiki).
+
+---
 **Version:** 1.1.0  
 **Updated:** December 17, 2024
 
